@@ -1,27 +1,21 @@
-const fs = require("node:fs");
-const readline = require("node:readline");
+const path = require("node:path");
+
+const { readFileLineByLine } = require("../utils/read-file");
 
 const Calories = require("./calories");
 
 async function readElvesCalories(calories) {
-  const fileStream = fs.createReadStream("input.txt");
-
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-
   let currentCalories = 0;
 
-  for await (const line of rl) {
+  await readFileLineByLine(path.join(__dirname, "input.txt"), (line) => {
     if (line === "") {
       calories.countElfCalories(currentCalories);
       currentCalories = 0;
-      continue;
+      return;
     }
 
     currentCalories += globalThis.parseInt(line);
-  }
+  });
 }
 
 async function resolvePart1() {
