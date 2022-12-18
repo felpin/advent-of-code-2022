@@ -33,6 +33,16 @@ function getDeletableDirectoriesSize(directory) {
   );
 }
 
+function getDirectoriesSize(directory) {
+  const sizes = [directory.size];
+
+  for (const child of Object.values(directory.children)) {
+    sizes.push(...getDirectoriesSize(child));
+  }
+
+  return sizes;
+}
+
 async function resolvePart1() {
   let directory = directoryTreeRoot;
 
@@ -62,6 +72,19 @@ async function resolvePart1() {
   );
 }
 
+function resolvePart2() {
+  const sizes = getDirectoriesSize(directoryTreeRoot);
+
+  const freeSpace = 70000000 - directoryTreeRoot.size;
+  const minSizeToDelete = 30000000 - freeSpace;
+  const deletableDirectories = sizes.filter((size) => size >= minSizeToDelete);
+
+  deletableDirectories.sort((a, b) => a - b);
+
+  console.log("Day 07, Part 02:", deletableDirectories[0]);
+}
+
 (async () => {
   await resolvePart1();
+  await resolvePart2();
 })();
