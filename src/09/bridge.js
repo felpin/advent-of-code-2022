@@ -1,8 +1,12 @@
 module.exports = class Bridge {
   #head = [0, 0];
-  #tails = Array(9).fill([0, 0]);
+  #tails = [];
 
   positions = new Set(["0,0"]);
+
+  constructor(tailsCount = 1) {
+    this.#tails = Array(tailsCount).fill([0, 0]);
+  }
 
   move(direction) {
     const [x, y] = this.#head;

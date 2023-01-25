@@ -1,11 +1,10 @@
 const { readFileLineByLine } = require("../utils/read-file");
 const path = require("node:path");
 
-const BridgePart1 = require("./bridge-part-1");
-const BridgePart2 = require("./bridge-part-2");
+const Bridge = require("./bridge");
 
 async function resolvePart1() {
-  const bridge = new BridgePart1();
+  const bridge = new Bridge();
 
   await readFileLineByLine(path.join(__dirname, "input.txt"), (line) => {
     const [direction, times] = line.split(" ");
@@ -19,7 +18,7 @@ async function resolvePart1() {
 }
 
 async function resolvePart2() {
-  const bridge = new BridgePart2();
+  const bridge = new Bridge(9);
 
   await readFileLineByLine(path.join(__dirname, "input.txt"), (line) => {
     const [direction, times] = line.split(" ");
