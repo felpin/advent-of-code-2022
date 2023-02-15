@@ -3,7 +3,13 @@ module.exports = class CPU {
   #pipeline = [];
   #registerX = 1;
 
+  #handleChangeCycle = undefined;
+
   signalStrengthSum = 0;
+
+  constructor(onChangeCycle) {
+    this.#handleChangeCycle = onChangeCycle;
+  }
 
   run(command) {
     const [program, ...args] = command.split(" ");
@@ -31,6 +37,7 @@ module.exports = class CPU {
     }
 
     this.#cycle++;
+    this.#handleChangeCycle?.(this.#cycle, this.#registerX);
 
     if (this.#cycle % 40 === 20) {
       this.signalStrengthSum += this.#cycle * this.#registerX;
