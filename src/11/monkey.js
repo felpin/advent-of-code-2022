@@ -2,10 +2,11 @@ module.exports = class Monkey {
   inspections = 0;
   monkeysToThrow = [];
 
-  constructor(items, operation, division) {
+  constructor(items, operation, division, relief) {
     this.division = division;
     this.items = items;
     this.operation = operation;
+    this.relief = relief;
   }
 
   receiveItem(item) {
@@ -14,7 +15,7 @@ module.exports = class Monkey {
 
   takeTurn() {
     for (const item of this.items) {
-      const nextWorryLevel = Math.floor(this.operation(item) / 3);
+      const nextWorryLevel = this.relief(this.operation(item));
       this.throwItem(nextWorryLevel);
     }
 
