@@ -2,7 +2,10 @@ import path from "node:path";
 
 import { readFileLineByLine } from "../utils/read-file";
 import { Position } from "./types";
-import BestSignalFinder from "./BestSignalFinder";
+import BestSignalFinderPart01 from "./BestSignalFinderPart01";
+import BestSignalFinderPart02 from "./BestSignalFinderPart02";
+
+type SetupOutput = Awaited<ReturnType<typeof setup>>;
 
 async function setup() {
   let heightmap: number[][] = [];
@@ -42,14 +45,29 @@ async function setup() {
   return { heightmap, start, end };
 }
 
-async function resolvePart1() {
-  const { heightmap, start, end } = await setup();
+async function resolvePart1(setupOutput: SetupOutput) {
+  const { heightmap, start, end } = setupOutput;
 
-  const bestSignalFinder = new BestSignalFinder(heightmap, start, end);
+  const bestSignalFinder = new BestSignalFinderPart01(heightmap, start, end);
 
   console.log("Day 12, Part 01:", bestSignalFinder.getStepsToBestSignal());
 }
 
+async function resolvePart2(setupOutput: SetupOutput) {
+  const { heightmap, start, end } = setupOutput;
+
+  const bestSignalFinder = new BestSignalFinderPart02(
+    heightmap,
+    end,
+    heightmap[start.x][start.y]
+  );
+
+  console.log("Day 12, Part 02:", bestSignalFinder.getStepsToBestSignal());
+}
+
 (async () => {
-  await resolvePart1();
+  const setupOutput = await setup();
+
+  await resolvePart1(setupOutput);
+  await resolvePart2(setupOutput);
 })();

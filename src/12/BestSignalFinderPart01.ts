@@ -7,7 +7,7 @@ interface PositionVisited extends Position {
   history: Position[];
 }
 
-export default class BestSignalFinder {
+export default class BestSignalFinderPart01 {
   readonly heightmap: number[][];
   readonly start: Position;
   readonly destination: Position;
